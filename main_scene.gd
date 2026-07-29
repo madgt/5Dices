@@ -93,14 +93,6 @@ func update_points_label(sum):
 		#totalPoints.set_text(var_to_str(sum + value))
 	showPoints.set_text(var_to_str(sum))
 
-func check_pairs():
-	extra_roll = 0
-	get_frequency_array()
-	for times in frequencyArray:
-		if times >= 2:
-			extra_roll += times / 2
-	print(extra_roll)
-
 func get_frequency_array():
 	print("array")
 	frequencyArray.resize(6)
@@ -112,6 +104,14 @@ func get_frequency_array():
 		else:
 			if dice_node_array[i].locked == false:
 				frequencyArray[dice_node_array[i].value-1] += 1;
+
+func check_pairs():
+	extra_roll = 0
+	get_frequency_array()
+	for times in frequencyArray:
+		if times >= 2:
+			extra_roll += times / 2
+	print(extra_roll)
 	
 func check_dice():
 	var sequence: bool = false
