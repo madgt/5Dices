@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://pa8rge2dwrl4"]
+
+[ext_resource type="Texture2D" uid="uid://damf6qw35w6bc" path="res://icon.svg" id="1_06tve"]
+[ext_resource type="Script" uid="uid://cnkol3absf4bg" path="res://sprite_2d.gd" id="2_i3osk"]
+
+[node name="Node2D" type="Node2D" unique_id=598117944]
+
+[node name="Label" type="Label" parent="." unique_id=1093135226]
+offset_left = 307.0
+offset_top = 207.0
+offset_right = 398.0
+offset_bottom = 230.0
+text = "Hello World"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1195621360]
+position = Vector2(596, 276)
+texture = ExtResource("1_06tve")
+script = ExtResource("2_i3osk")

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://c0hrx7u0fh4y1"]
+
+[ext_resource type="Texture2D" uid="uid://damf6qw35w6bc" path="res://icon.svg" id="1_r04n3"]
+[ext_resource type="Script" uid="uid://cnkol3absf4bg" path="res://sprite_2d.gd" id="2_n4tde"]
+
+[node name="rollButton" type="Node2D" unique_id=735890032]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2068672742]
+position = Vector2(581, 296)
+texture = ExtResource("1_r04n3")
+script = ExtResource("2_n4tde")
+
+[node name="Timer" type="Timer" parent="Sprite2D" unique_id=826847485]
+unique_name_in_owner = true
+autostart = true
+
+[node name="Button" type="Button" parent="." unique_id=1434830729]
+offset_left = 137.0
+offset_top = 329.0
+offset_right = 212.0
+offset_bottom = 360.0
+text = "Roll Dice"
+
+[connection signal="pressed" from="Button" to="Sprite2D" method="_on_button_pressed"]

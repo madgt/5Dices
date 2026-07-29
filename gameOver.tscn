@@ -1,0 +1,208 @@
+[gd_scene format=3 uid="uid://c6n3biyucv270"]
+
+[ext_resource type="Script" uid="uid://bso8o0a6mpbqf" path="res://game_over.gd" id="1_ky4b6"]
+
+[sub_resource type="Theme" id="Theme_knsyn"]
+
+[sub_resource type="Animation" id="Animation_xlotp"]
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ky4b6"]
+resource_name = "show"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.19999999),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0.0, 0.85]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 500), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_knsyn"]
+_data = {
+&"RESET": SubResource("Animation_xlotp"),
+&"show": SubResource("Animation_ky4b6")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_24obf"]
+bg_color = Color(0.1882353, 0.078431375, 0.44705883, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="Theme" id="Theme_uybdb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oy4sr"]
+bg_color = Color(0.1882353, 0.078431375, 0.44705883, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+corner_detail = 20
+
+[sub_resource type="Theme" id="Theme_ky4b6"]
+
+[node name="gameOver" type="Control" unique_id=1466348980]
+custom_maximum_size = Vector2(0, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -500.0
+offset_bottom = -650.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_knsyn")
+script = ExtResource("1_ky4b6")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1687865126]
+custom_minimum_size = Vector2(500, 650)
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 650.0
+color = Color(0.12, 0.12, 0.12, 0)
+
+[node name="Control" type="Control" parent="." unique_id=1479258953]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Polygon2D2" type="Polygon2D" parent="Control" unique_id=141176524]
+position = Vector2(0, -24)
+color = Color(0.8687875, 0.21188796, 0.29348403, 1)
+polygon = PackedVector2Array(0, 648, 504, 648, 504, 320, 0, 424)
+
+[node name="Polygon2D" type="Polygon2D" parent="Control" unique_id=621260243]
+color = Color(0.5921569, 0.27058825, 1, 1)
+polygon = PackedVector2Array(0, 648, 504, 648, 504, 320, 0, 424)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control" unique_id=198252437]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_knsyn")
+
+[node name="buttonNo" type="Button" parent="Control" unique_id=1032787873]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 0
+offset_left = 424.0
+offset_top = 560.0
+offset_right = 484.0
+offset_bottom = 620.0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_24obf")
+text = "NO"
+
+[node name="buttonYes" type="Button" parent="Control" unique_id=1944777099]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 0
+offset_left = 354.0
+offset_top = 560.0
+offset_right = 414.0
+offset_bottom = 620.0
+theme = SubResource("Theme_uybdb")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_oy4sr")
+text = "Y"
+
+[node name="playAgainLabel" type="Label" parent="Control" unique_id=579680657]
+layout_mode = 0
+offset_top = 568.0
+offset_right = 500.0
+offset_bottom = 610.0
+theme_override_colors/font_outline_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 30
+text = "Play again?"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="messageLabel" type="Label" parent="Control" unique_id=1949045702]
+layout_mode = 0
+offset_top = 464.0
+offset_right = 500.0
+offset_bottom = 506.0
+theme_override_colors/font_outline_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 30
+text = "Message"
+horizontal_alignment = 1
+
+[node name="points" type="Label" parent="Control" unique_id=1889297757]
+layout_mode = 0
+offset_top = 506.0
+offset_right = 500.0
+offset_bottom = 537.0
+theme_override_colors/font_outline_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+text = "(15 dice points + 30 bonus points)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="totalText" type="Label" parent="Control" unique_id=2126877902]
+layout_mode = 0
+offset_top = 168.0
+offset_right = 500.0
+offset_bottom = 251.0
+theme_override_colors/font_outline_color = Color(0.12955844, 0.12955847, 0.12955844, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 60
+text = "Total"
+horizontal_alignment = 1
+
+[node name="totalPoints" type="Label" parent="Control" unique_id=1233003045]
+layout_mode = 0
+offset_top = 211.0
+offset_right = 500.0
+offset_bottom = 512.0
+theme = SubResource("Theme_ky4b6")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0.12941177, 0.12941177, 0.12941177, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 220
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Control/buttonYes" to="." method="_on_button_yes_pressed"]
