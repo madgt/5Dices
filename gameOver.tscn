@@ -110,11 +110,13 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Polygon2D2" type="Polygon2D" parent="Control" unique_id=141176524]
+visible = false
 position = Vector2(0, -24)
 color = Color(0.8687875, 0.21188796, 0.29348403, 1)
 polygon = PackedVector2Array(0, 648, 504, 648, 504, 320, 0, 424)
 
 [node name="Polygon2D" type="Polygon2D" parent="Control" unique_id=621260243]
+visible = false
 color = Color(0.5921569, 0.27058825, 1, 1)
 polygon = PackedVector2Array(0, 648, 504, 648, 504, 320, 0, 424)
 
@@ -181,6 +183,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="totalText" type="Label" parent="Control" unique_id=2126877902]
+visible = false
 layout_mode = 0
 offset_top = 168.0
 offset_right = 500.0
@@ -192,6 +195,7 @@ text = "Total"
 horizontal_alignment = 1
 
 [node name="totalPoints" type="Label" parent="Control" unique_id=1233003045]
+visible = false
 layout_mode = 0
 offset_top = 211.0
 offset_right = 500.0

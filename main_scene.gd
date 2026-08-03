@@ -8,14 +8,12 @@ extends Panel
 
 @export var game_over_screen : PackedScene
 var dice_node_array = []
-var frequency : Array[int] = []
 var test_mode: bool = false;
 var num_of_tries: int = 3
 var roll_num: int = 0
-var sum_dice: int = 0
 var extra_roll: int = 0
-
-var frequencyArray: Array[int] = []
+var sum_dice = 0
+var frequency_array: Array[int] = []
 
 var bonus_value = 0
 var bonus_message = ''
@@ -27,32 +25,25 @@ func _ready() -> void:
 func new_game():
 	num_of_tries= 3
 	roll_num = 0
-	sum_dice = 0
+	frequency_array.resize(6)
+	frequency_array.fill(0)
 	
+func _on_roll_button_pressed() -> void:
+	get_dice()
+	if roll_num < num_of_tries:
+		for dice in dice_node_array:
+			if dice.locked == false:
+				dice.roll()
+			sum_points(dice.value)
+		update_points_label(sum_dice)
+		num_of_tries += extra_roll
+		sum_dice = 0
+		frequency_array.fill(0)
+		roll_num += 1
+		rollText.set_text(var_to_str(roll_num)+'/'+var_to_str(num_of_tries));
+	if roll_num >= num_of_tries:
+		game_over()
 	
-func game_over():
-	var game_over = game_over_screen.instantiate()
-	var count_dice: int = 0
-	
-	rollButton.visible = false;
-	
-	for dice in dice_node_array:
-		sum_points(dice.value)
-		#lock all checkboxes button
-		dice.checkBox.disabled = true
-		
-	update_points_label(sum_dice)
-	#set data to game over screen
-	game_over.dice_points = sum_dice
-	game_over.total_points = sum_dice + bonus_value
-	game_over.message = bonus_message
-	game_over.bonus_points = bonus_value
-	game_over.restart_game.connect(_on_restart_game)
-	add_child(game_over)
-
-func _on_restart_game():
-	get_tree().reload_current_scene()
-
 func get_dice():
 	if !test_mode:
 		dice_node_array = %diceContainer.find_children("Dice*");
@@ -63,23 +54,6 @@ func get_dice():
 		{"value": 0 , "locked": false},
 		{"value": 0 , "locked": false}, ]
 
-func _on_roll_button_pressed() -> void:
-	var count_dice: int = 0
-	if roll_num < num_of_tries:
-		get_dice()
-		for dice in dice_node_array:
-			if dice.locked == false:
-				dice.roll()
-			sum_points(dice.value)
-			update_points_label(sum_dice)
-		check_pairs()
-		num_of_tries += extra_roll
-		sum_dice = 0
-		roll_num += 1
-		rollText.set_text(var_to_str(roll_num)+'/'+var_to_str(num_of_tries));
-	if roll_num >= num_of_tries:
-		game_over()
-
 func sum_points(pips):
 	sum_dice += pips
 
@@ -88,30 +62,28 @@ func update_points_label(sum):
 		var bonus = check_dice()
 		bonus_message = bonus.message
 		bonus_value = bonus.value
-		#bonusPoints.set_text(var_to_str(value))
-		#bonusMessage.set_text(message)
-		#totalPoints.set_text(var_to_str(sum + value))
+	else: 
+		check_pairs()
 	showPoints.set_text(var_to_str(sum))
-
+	
 func get_frequency_array():
-	print("array")
-	frequencyArray.resize(6)
-	frequencyArray.fill(0)
 	
 	for i in range(0, dice_node_array.size()):
+		
+		print(dice_node_array[i].value)
 		if roll_num >= num_of_tries:
-			frequencyArray[dice_node_array[i].value-1] += 1;
+			frequency_array[dice_node_array[i].value-1] += 1;
 		else:
 			if dice_node_array[i].locked == false:
-				frequencyArray[dice_node_array[i].value-1] += 1;
-
+				frequency_array[dice_node_array[i].value-1] += 1;
+		
 func check_pairs():
+	print("check_pairs")
 	extra_roll = 0
 	get_frequency_array()
-	for times in frequencyArray:
+	for times in frequency_array:
 		if times >= 2:
 			extra_roll += times / 2
-	print(extra_roll)
 	
 func check_dice():
 	var sequence: bool = false
@@ -126,23 +98,25 @@ func check_dice():
 	var five_dice = 0
 	var full_house = 0
 	
-	get_frequency_array()
+	#get_frequency_array()
 	
 	for i in range(0, dice_node_array.size()):
-		frequencyArray[dice_node_array[i].value-1] += 1;
+		frequency_array[dice_node_array[i].value-1] += 1;
 	
-	for numbers in frequencyArray:
+	for numbers in frequency_array:
 		match numbers:
 			2: pairs += 1
 			3: three_dice += 1
 			4: four_dice +=1
 			5: five_dice += 1
 	
+	#print(frequency_array)
 	if roll_num >= num_of_tries:
 		return check_bonus(count, pairs,three_dice, four_dice,five_dice, full_house, sequence)
 	
 
 func check_bonus(count, pairs,three_dice, four_dice,five_dice, full_house, sequence):
+	#print(frequency_array)
 	var bonus = { "value": 0, "message": ""}
 	#check bonus points
 	#1. Dois dados iguais: 5 pontos
@@ -183,3 +157,26 @@ func check_bonus(count, pairs,three_dice, four_dice,five_dice, full_house, seque
 			bonus.value = 5
 			bonus.message =  "A pair... meh"
 	return(bonus)
+
+func game_over():
+	var game_over = game_over_screen.instantiate()
+	var count_dice: int = 0
+	
+	rollButton.visible = false;
+	
+	for dice in dice_node_array:
+		sum_points(dice.value)
+		#lock all checkboxes button
+		dice.checkBox.disabled = true
+		
+	update_points_label(sum_dice)
+	#set data to game over screen
+	game_over.dice_points = sum_dice
+	game_over.total_points = sum_dice + bonus_value
+	game_over.message = bonus_message
+	game_over.bonus_points = bonus_value
+	game_over.restart_game.connect(_on_restart_game)
+	add_child(game_over)
+
+func _on_restart_game():
+	get_tree().reload_current_scene()
