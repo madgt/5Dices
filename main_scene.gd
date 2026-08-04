@@ -5,10 +5,11 @@ extends Panel
 @onready var rollText : Label = get_node("MarginContainer/VBoxContainer/dataContainer/rollsContainer/rollNumber");
 @onready var totalPoints: Label = $%totalPoints
 @onready var rollButton : Button = $MarginContainer/VBoxContainer/buttonContainer/rollButton
+@onready var bonus_roll_notification = %BonusRoll
 
 @export var game_over_screen : PackedScene
 var dice_node_array = []
-var test_mode: bool = false;
+var test_mode: bool = true;
 var num_of_tries: int = 3
 var roll_num: int = 0
 var extra_roll: int = 0
@@ -70,7 +71,6 @@ func get_frequency_array():
 	
 	for i in range(0, dice_node_array.size()):
 		
-		print(dice_node_array[i].value)
 		if roll_num >= num_of_tries:
 			frequency_array[dice_node_array[i].value-1] += 1;
 		else:
@@ -78,12 +78,12 @@ func get_frequency_array():
 				frequency_array[dice_node_array[i].value-1] += 1;
 		
 func check_pairs():
-	print("check_pairs")
 	extra_roll = 0
 	get_frequency_array()
 	for times in frequency_array:
-		if times >= 2:
-			extra_roll += times / 2
+		if times >= 3:
+			extra_roll += times / 3
+			bonus_roll_notification.show_notification()
 	
 func check_dice():
 	var sequence: bool = false
@@ -110,13 +110,11 @@ func check_dice():
 			4: four_dice +=1
 			5: five_dice += 1
 	
-	#print(frequency_array)
 	if roll_num >= num_of_tries:
 		return check_bonus(count, pairs,three_dice, four_dice,five_dice, full_house, sequence)
 	
 
 func check_bonus(count, pairs,three_dice, four_dice,five_dice, full_house, sequence):
-	#print(frequency_array)
 	var bonus = { "value": 0, "message": ""}
 	#check bonus points
 	#1. Dois dados iguais: 5 pontos
@@ -161,14 +159,16 @@ func check_bonus(count, pairs,three_dice, four_dice,five_dice, full_house, seque
 func game_over():
 	var game_over = game_over_screen.instantiate()
 	var count_dice: int = 0
-	
+	var dice_array = [0, 0, 0 , 0, 0]
 	rollButton.visible = false;
 	
 	for dice in dice_node_array:
 		sum_points(dice.value)
+		dice_array[count_dice] = dice.value
 		#lock all checkboxes button
 		dice.checkBox.disabled = true
-		
+
+	game_over.set_dice_face(dice_array)	
 	update_points_label(sum_dice)
 	#set data to game over screen
 	game_over.dice_points = sum_dice
@@ -180,3 +180,4 @@ func game_over():
 
 func _on_restart_game():
 	get_tree().reload_current_scene()
+	

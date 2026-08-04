@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://biokm7n00t8ea" path="res://main_scene.gd" id="1_hr5et"]
 [ext_resource type="PackedScene" uid="uid://tpytheolsbw5" path="res://buttonRoll.tscn" id="2_hr5et"]
 [ext_resource type="PackedScene" uid="uid://c6n3biyucv270" path="res://gameOver.tscn" id="3_6mfv6"]
+[ext_resource type="PackedScene" uid="uid://bmqvi8ggu4g78" path="res://bonusRollNotification.tscn" id="6_2qqqv"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2u5vc"]
 texture = ExtResource("1_61od6")
@@ -56,7 +57,7 @@ theme_override_font_sizes/font_size = 20
 text = "ROLL"
 horizontal_alignment = 1
 
-[node name="rollNumber" type="Label" parent="MarginContainer/VBoxContainer/dataContainer/rollsContainer" unique_id=379554220]
+[node name="rollNumber" type="Label" parent="MarginContainer/VBoxContainer/dataContainer/rollsContainer" unique_id=1114203629]
 layout_mode = 2
 theme_override_font_sizes/font_size = 80
 text = "0/3"
@@ -153,6 +154,10 @@ alignment = 1
 [node name="rollButton" parent="MarginContainer/VBoxContainer/buttonContainer" unique_id=671126175 instance=ExtResource("2_hr5et")]
 custom_minimum_size = Vector2(200, 0)
 custom_maximum_size = Vector2(350, -1)
+layout_mode = 2
+
+[node name="BonusRoll" parent="MarginContainer" unique_id=375639091 instance=ExtResource("6_2qqqv")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/buttonContainer/rollButton" to="." method="_on_roll_button_pressed"]
