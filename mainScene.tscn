@@ -5,10 +5,20 @@
 [ext_resource type="Script" uid="uid://biokm7n00t8ea" path="res://main_scene.gd" id="1_hr5et"]
 [ext_resource type="PackedScene" uid="uid://tpytheolsbw5" path="res://buttonRoll.tscn" id="2_hr5et"]
 [ext_resource type="PackedScene" uid="uid://c6n3biyucv270" path="res://gameOver.tscn" id="3_6mfv6"]
+[ext_resource type="Shader" uid="uid://ogniuv5cucq1" path="res://background.gdshader" id="4_bnlnp"]
+[ext_resource type="Texture2D" uid="uid://cf63w2t4p5ph8" path="res://assets/Green.png" id="5_vuu3o"]
 [ext_resource type="PackedScene" uid="uid://bmqvi8ggu4g78" path="res://bonusRollNotification.tscn" id="6_2qqqv"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2u5vc"]
 texture = ExtResource("1_61od6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uybdb"]
+shader = ExtResource("4_bnlnp")
+shader_parameter/SPEED = 0.2
+
+[sub_resource type="Theme" id="Theme_vuu3o"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_0pyiw"]
 
 [node name="main" type="Panel" unique_id=70109148]
 anchors_preset = 15
@@ -20,6 +30,14 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_2u5vc")
 script = ExtResource("1_hr5et")
 game_over_screen = ExtResource("3_6mfv6")
 
+[node name="TextureRect" type="TextureRect" parent="." unique_id=874195486]
+material = SubResource("ShaderMaterial_uybdb")
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 650.0
+texture = ExtResource("5_vuu3o")
+stretch_mode = 1
+
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=779785934]
 layout_mode = 1
 anchors_preset = 15
@@ -27,14 +45,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=136778222]
 layout_mode = 2
-theme_override_constants/separation = 80
+theme_override_constants/separation = 20
+
+[node name="spacer_data_dice2" type="Control" parent="MarginContainer/VBoxContainer" unique_id=107324221]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 
 [node name="bonusMessage" type="Label" parent="MarginContainer/VBoxContainer" unique_id=89605545]
 visible = false
@@ -47,33 +67,19 @@ layout_mode = 2
 theme_override_constants/separation = 250
 alignment = 1
 
-[node name="rollsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/dataContainer" unique_id=32935117]
-layout_mode = 2
-
-[node name="rollText" type="Label" parent="MarginContainer/VBoxContainer/dataContainer/rollsContainer" unique_id=1522507439]
-layout_mode = 2
-theme_override_constants/line_spacing = -10
-theme_override_font_sizes/font_size = 20
-text = "ROLL"
-horizontal_alignment = 1
-
-[node name="rollNumber" type="Label" parent="MarginContainer/VBoxContainer/dataContainer/rollsContainer" unique_id=1114203629]
-layout_mode = 2
-theme_override_font_sizes/font_size = 80
-text = "0/3"
-horizontal_alignment = 1
-
 [node name="bonusContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/dataContainer" unique_id=1720051979]
 visible = false
 layout_mode = 2
 
 [node name="bonusLabel" type="Label" parent="MarginContainer/VBoxContainer/dataContainer/bonusContainer" unique_id=263785822]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Bonus"
 horizontal_alignment = 1
 
 [node name="bonusPoints" type="Label" parent="MarginContainer/VBoxContainer/dataContainer/bonusContainer" unique_id=2003690299]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "0"
@@ -101,15 +107,19 @@ layout_mode = 2
 
 [node name="pointsLabel" type="Label" parent="MarginContainer/VBoxContainer/dataContainer/PipsContainer" unique_id=100759428]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 14
 text = "POINTS"
 horizontal_alignment = 1
 
 [node name="points" type="Label" parent="MarginContainer/VBoxContainer/dataContainer/PipsContainer" unique_id=1809769674]
 layout_mode = 2
-theme_override_font_sizes/font_size = 80
+theme_override_font_sizes/font_size = 40
 text = "0"
 horizontal_alignment = 1
+
+[node name="spacer_data_dice" type="Control" parent="MarginContainer/VBoxContainer" unique_id=1218576671]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 
 [node name="diceContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=252147953]
 unique_name_in_owner = true
@@ -141,20 +151,49 @@ layout_mode = 2
 [node name="Dice5" parent="MarginContainer/VBoxContainer/diceContainer/lowerDiceRow" unique_id=1877502891 instance=ExtResource("1_g4qto")]
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/diceContainer/lowerDiceRow" unique_id=413114202]
-visible = false
-custom_minimum_size = Vector2(64, 64)
+[node name="spacer_dice_rolls" type="Control" parent="MarginContainer/VBoxContainer" unique_id=785729349]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-color = Color(0.613202, 0.00027646302, 0.6131976, 1)
+mouse_filter = 2
 
-[node name="buttonContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=200207450]
+[node name="rollsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=217586384]
 layout_mode = 2
 alignment = 1
 
-[node name="rollButton" parent="MarginContainer/VBoxContainer/buttonContainer" unique_id=671126175 instance=ExtResource("2_hr5et")]
-custom_minimum_size = Vector2(200, 0)
-custom_maximum_size = Vector2(350, -1)
+[node name="rollText" type="Label" parent="MarginContainer/VBoxContainer/rollsContainer" unique_id=1522507439]
 layout_mode = 2
+theme_override_constants/line_spacing = -10
+theme_override_font_sizes/font_size = 20
+text = "ROLL"
+horizontal_alignment = 1
+
+[node name="spacer" type="Control" parent="MarginContainer/VBoxContainer/rollsContainer" unique_id=947493300]
+layout_mode = 2
+
+[node name="rollNumber" type="Label" parent="MarginContainer/VBoxContainer/rollsContainer" unique_id=1114203629]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "0/3"
+horizontal_alignment = 1
+
+[node name="buttonContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=200207450]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/buttonContainer" unique_id=1883285283]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "STOP"
+
+[node name="rollButton" parent="MarginContainer/VBoxContainer/buttonContainer" unique_id=671126175 instance=ExtResource("2_hr5et")]
+custom_minimum_size = Vector2(250, 205)
+custom_maximum_size = Vector2(250, -1)
+layout_mode = 2
+theme = SubResource("Theme_vuu3o")
+theme_override_colors/icon_normal_color = Color(2.4065375e-06, 0.5826774, 0.3696536, 1)
+icon = SubResource("ImageTexture_0pyiw")
+icon_alignment = 1
 
 [node name="BonusRoll" parent="MarginContainer" unique_id=375639091 instance=ExtResource("6_2qqqv")]
 unique_name_in_owner = true

@@ -2,14 +2,14 @@ extends Panel
 
 @onready var showPoints: Label = get_node("MarginContainer/VBoxContainer/dataContainer/PipsContainer/points")
 @onready var bonusPoints: Label = get_node("MarginContainer/VBoxContainer/dataContainer/bonusContainer/bonusPoints")
-@onready var rollText : Label = get_node("MarginContainer/VBoxContainer/dataContainer/rollsContainer/rollNumber");
+@onready var rollText : Label = get_node("MarginContainer/VBoxContainer/rollsContainer/rollNumber");
 @onready var totalPoints: Label = $%totalPoints
 @onready var rollButton : Button = $MarginContainer/VBoxContainer/buttonContainer/rollButton
 @onready var bonus_roll_notification = %BonusRoll
 
 @export var game_over_screen : PackedScene
 var dice_node_array = []
-var test_mode: bool = true;
+var test_mode: bool = false;
 var num_of_tries: int = 3
 var roll_num: int = 0
 var extra_roll: int = 0
